@@ -1,6 +1,5 @@
 #include "Grid.h"
 
-#include <iostream>
 #include <vector>
 
 namespace Tetris::Entities
@@ -25,7 +24,7 @@ namespace Tetris::Entities
                     row * m_cellSize + 1,
                     m_cellSize - 1,
                     m_cellSize - 1,
-                    m_colors[m_grid[row][column]]);
+                    Colors::BlockColors[m_grid[row][column]]);
             }
         }
     }

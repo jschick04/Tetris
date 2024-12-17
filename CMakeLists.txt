@@ -20,10 +20,11 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 endif()
 
 # Our Project
-add_executable(${PROJECT_NAME} "src/main.cpp" "src/gpch.h" "src/Application.h" "src/Application.cpp" "src/Core/Colors.h" "src/Entities/Grid.h" "src/Entities/Grid.cpp" "src/Game.h" "src/Game.cpp")
+add_executable(${PROJECT_NAME} "src/main.cpp" "src/gpch.h" "src/Application.h" "src/Application.cpp" "src/Core/Colors.h" "src/Entities/Grid.h" "src/Entities/Grid.cpp" "src/Game.h" "src/Game.cpp"  "src/Entities/Position.h" "src/Entities/Blocks/LBlock.h"  "src/Entities/Block.h" "src/Entities/Block.cpp" "src/Entities/Blocks/Blocks.h" "src/Entities/Blocks/JBlock.h" "src/Entities/Blocks/IBlock.h" "src/Entities/Blocks/OBlock.h" "src/Entities/Blocks/SBlock.h" "src/Entities/Blocks/TBlock.h")
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
 target_include_directories(${PROJECT_NAME} PRIVATE "src")
+target_include_directories(${PROJECT_NAME} PRIVATE "src/Entities")
 target_precompile_headers(${PROJECT_NAME} PUBLIC "src/gpch.h")
 
 # Enable Hot Reload for MSVC compilers if supported.
