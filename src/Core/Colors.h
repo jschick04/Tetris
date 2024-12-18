@@ -14,5 +14,5 @@ namespace Tetris::Colors
     inline constexpr Color Cyan = { 21, 204, 209, 255 };
     inline constexpr Color Blue = { 13, 64, 216, 255 };
 
-    inline constexpr std::array BlockColors = { DarkGrey, Green, Red, Orange, Yellow, Purple, Cyan, Blue };
+    inline constexpr std::array BlockColors = { DarkGrey, Cyan, Blue, Orange, Yellow, Green, Red, Purple };
 }

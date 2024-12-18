@@ -1,8 +1,8 @@
-#include "Block.h"
+#include "Tetromino.h"
 
 namespace Tetris::Entities
 {
-    std::vector<Position> Block::GetPositions()
+    std::vector<Position> Tetromino::GetPositions()
     {
         const std::vector<Position>& positions = rotations[m_rotation];
         std::vector<Position> updatedPositions;
@@ -17,13 +17,13 @@ namespace Tetris::Entities
         return updatedPositions;
     }
 
-    void Block::Move(const int rows, const int columns)
+    void Tetromino::Move(const int rows, const int columns)
     {
         m_rowOffset += rows;
         m_columnOffset += columns;
     }
 
-    void Block::Render()
+    void Tetromino::Render()
     {
         for (const Position& position : GetPositions())
         {
@@ -36,9 +36,9 @@ namespace Tetris::Entities
         }
     }
 
-    void Block::Rotate() { m_rotation = (m_rotation + 1) % static_cast<int>(rotations.size()); }
+    void Tetromino::Rotate() { m_rotation = (m_rotation + 1) % static_cast<int>(rotations.size()); }
 
-    void Block::UndoRotate()
+    void Tetromino::UndoRotate()
     {
         m_rotation = (m_rotation + (static_cast<int>(rotations.size()) - 1)) % static_cast<int>(rotations.size());
     }

@@ -7,7 +7,7 @@
 
 namespace Tetris::Entities
 {
-    class Block
+    class Tetromino
     {
     public:
         int id;
