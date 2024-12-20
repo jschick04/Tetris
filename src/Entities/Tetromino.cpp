@@ -28,8 +28,8 @@ namespace Tetris::Entities
         for (const Position& position : GetPositions())
         {
             DrawRectangle(
-                position.column * m_cellSize + 1,
-                position.row * m_cellSize + 1,
+                position.column * m_cellSize + 11,
+                position.row * m_cellSize + 11,
                 m_cellSize - 1,
                 m_cellSize - 1,
                 Colors::BlockColors[id]);

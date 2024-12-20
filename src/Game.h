@@ -16,19 +16,18 @@ namespace Tetris
         // 1200 - Tetris
         int score = 0;
 
-        Game();
-
         void OnRender();
         void OnUpdate();
-
     private:
         std::vector<Entities::Tetromino> m_bag = Entities::Tetrominoes;
-        Entities::Tetromino m_current;
-        std::unique_ptr<Entities::Grid> m_grid;
+        Entities::Tetromino m_current = GetRandomBag();
+        std::unique_ptr<Entities::Grid> m_grid = std::make_unique<Entities::Grid>(Entities::Grid::Initialize());
         double m_lastTick = 0;
-        Entities::Tetromino m_next;
+        Entities::Tetromino m_next = GetRandomBag();
+        Entities::Tetromino* m_stashed = nullptr;
 
         Entities::Tetromino GetRandomBag();
+        void HandleInput();
         void MoveDown();
     };
 }

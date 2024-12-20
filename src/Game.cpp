@@ -5,13 +5,6 @@
 
 namespace Tetris
 {
-    Game::Game()
-    {
-        m_grid = std::make_unique<Entities::Grid>(Entities::Grid::Initialize());
-        m_current = GetRandomBag();
-        m_next = GetRandomBag();
-    }
-
     void Game::OnRender()
     {
         m_grid->Render();
@@ -26,6 +19,28 @@ namespace Tetris
             m_lastTick = currentTick;
         }
 
+        HandleInput();
+    }
+
+    Entities::Tetromino Game::GetRandomBag()
+    {
+        if (m_bag.empty())
+        {
+            m_bag = Entities::Tetrominoes;
+        }
+
+        std::random_device rd;
+        std::mt19937 generator(rd());
+        std::ranges::shuffle(m_bag, generator);
+
+        const Entities::Tetromino tetromino = m_bag.back();
+        m_bag.pop_back();
+
+        return tetromino;
+    }
+
+    void Game::HandleInput()
+    {
         switch (GetKeyPressed())
         {
             case KEY_LEFT:
@@ -76,22 +91,6 @@ namespace Tetris
 
                 break;
         }
-    }
-
-    Entities::Tetromino Game::GetRandomBag()
-    {
-        if (m_bag.empty())
-        {
-            m_bag = Entities::Tetrominoes;
-        }
-
-        std::random_device rd;
-        std::mt19937 generator(rd());
-        std::ranges::shuffle(m_bag, generator);
-        const Entities::Tetromino tetromino = m_bag.back();
-        m_bag.pop_back();
-
-        return tetromino;
     }
 
     void Game::MoveDown()

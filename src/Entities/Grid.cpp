@@ -48,8 +48,8 @@ namespace Tetris::Entities
             for (int column = 0; column < m_columns; column++)
             {
                 DrawRectangle(
-                    column * m_cellSize + 1,
-                    row * m_cellSize + 1,
+                    column * m_cellSize + 11,
+                    row * m_cellSize + 11,
                     m_cellSize - 1,
                     m_cellSize - 1,
                     Colors::BlockColors[m_grid[row][column]]);
