@@ -4,7 +4,7 @@
 
 namespace Tetris::Entities
 {
-    bool Grid::CanMove(Tetromino& tetromino) const
+    bool Grid::CanMove(const Tetromino& tetromino) const
     {
         for (const auto& position : tetromino.GetPositions())
         {
@@ -13,7 +13,7 @@ namespace Tetris::Entities
                 return false;
             }
 
-            if (m_grid[position.row][position.column] != 0)
+            if (m_grid[position.row * m_columns + position.column] != 0)
             {
                 return false;
             }
@@ -26,19 +26,37 @@ namespace Tetris::Entities
     {
         Grid grid;
 
-        grid.m_grid = std::vector(grid.m_rows, std::vector(grid.m_columns, 0));
+        grid.m_grid.resize(grid.m_rows * grid.m_columns, 0);
 
         return grid;
     }
 
-    void Grid::Lock(Tetromino& tetromino)
+    void Grid::Lock(const Tetromino& tetromino)
     {
         for (const auto& position : tetromino.GetPositions())
         {
-            m_grid[position.row][position.column] = tetromino.id;
+            m_grid[position.row * m_columns + position.column] = tetromino.id;
         }
 
-        ClearRows();
+        const int rowsCleared = ClearRows();
+
+        switch (rowsCleared)
+        {
+            case 1:
+                m_score += 40;
+                break;
+            case 2:
+                m_score += 100;
+                break;
+            case 3:
+                m_score += 300;
+                break;
+            case 4:
+                m_score += 1200;
+                break;
+        }
+
+        m_totalClears += rowsCleared;
     }
 
     void Grid::Render() const
@@ -48,14 +66,18 @@ namespace Tetris::Entities
             for (int column = 0; column < m_columns; column++)
             {
                 DrawRectangle(
-                    column * m_cellSize + 11,
-                    row * m_cellSize + 11,
-                    m_cellSize - 1,
-                    m_cellSize - 1,
-                    Colors::BlockColors[m_grid[row][column]]);
+                    column * CellSize + Offset + Padding,
+                    row * CellSize + Offset + Padding,
+                    CellSize - Padding,
+                    CellSize - Padding,
+                    Colors::BlockColors[m_grid[row * m_columns + column]]);
             }
         }
     }
+
+    int Grid::GetScore() const { return m_score; }
+
+    int Grid::GetTotalClears() const { return m_totalClears; }
 
     void Grid::ClearRow(const int row)
     {
@@ -63,8 +85,8 @@ namespace Tetris::Entities
         {
             for (int column = 0; column < m_columns; column++)
             {
-                m_grid[currentRow][column] = m_grid[currentRow - 1][column];
-                m_grid[0][column] = 0;
+                m_grid[currentRow * m_columns + column] = m_grid[(currentRow - 1) * m_columns + column];
+                m_grid[column] = 0;
             }
         }
     }
@@ -79,7 +101,7 @@ namespace Tetris::Entities
 
             for (int column = 0; column < m_columns; column++)
             {
-                if (m_grid[row][column] == 0)
+                if (m_grid[row * m_columns + column] == 0)
                 {
                     isRowFull = false;
 

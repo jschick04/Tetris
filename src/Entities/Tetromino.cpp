@@ -1,10 +1,12 @@
 #include "Tetromino.h"
 
+#include "Grid.h"
+
 namespace Tetris::Entities
 {
-    std::vector<Position> Tetromino::GetPositions()
+    std::vector<Position> Tetromino::GetPositions() const
     {
-        const std::vector<Position>& positions = rotations[m_rotation];
+        const std::vector<Position>& positions = rotations.at(m_rotation);
         std::vector<Position> updatedPositions;
 
         updatedPositions.reserve(positions.size());
@@ -23,15 +25,15 @@ namespace Tetris::Entities
         m_columnOffset += columns;
     }
 
-    void Tetromino::Render()
+    void Tetromino::Render(const int offsetX, const int offsetY) const
     {
         for (const Position& position : GetPositions())
         {
             DrawRectangle(
-                position.column * m_cellSize + 11,
-                position.row * m_cellSize + 11,
-                m_cellSize - 1,
-                m_cellSize - 1,
+                position.column * Grid::CellSize + Grid::Offset + Grid::Padding + offsetX,
+                position.row * Grid::CellSize + Grid::Offset + Grid::Padding + offsetY,
+                Grid::CellSize - Grid::Padding,
+                Grid::CellSize - Grid::Padding,
                 Colors::BlockColors[id]);
         }
     }

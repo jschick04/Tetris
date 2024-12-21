@@ -10,7 +10,7 @@ namespace Tetris::Colors
     inline constexpr Color Orange = { 238, 120, 32, 255 };
     inline constexpr Color Yellow = { 247, 211, 8, 255 };
     inline constexpr Color Purple = { 173, 77, 156, 255 };
-    inline constexpr Color DarkBlue = { 13, 71, 161, 255 }; 
+    inline constexpr Color DarkBlue = { 13, 71, 161, 255 };
     inline constexpr Color Cyan = { 49, 199, 239, 255 };
     inline constexpr Color Blue = { 90, 101, 173, 255 };
     inline constexpr Color White = { 255, 255, 255, 255 };

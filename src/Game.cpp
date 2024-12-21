@@ -5,14 +5,41 @@
 
 namespace Tetris
 {
-    void Game::OnRender()
+    int Game::GetScore() const { return m_grid->GetScore(); }
+
+    bool Game::IsGameOver() const { return m_isGameOver; }
+
+    void Game::OnRender() const
     {
         m_grid->Render();
         m_current.Render();
+
+        switch (m_next.id)
+        {
+            case 1: // I
+                m_next.Render(245, 220);
+
+                break;
+            case 4: // O
+                m_next.Render(245, 210);
+
+                break;
+            default:
+                m_next.Render(260, 200);
+
+                break;
+        }
+
+        if (m_stashed)
+        {
+            m_stashed->Render();
+        }
     }
 
     void Game::OnUpdate()
     {
+        if (m_isGameOver) { return; }
+
         if (const double currentTick = GetTime(); currentTick - m_lastTick >= 0.2)
         {
             MoveDown();
@@ -103,6 +130,14 @@ namespace Tetris
 
             // Needs to be a 0.5s delay before the next block spawns where the player can still move the block left and right
             m_grid->Lock(m_current);
+
+            if (!m_grid->CanMove(m_next))
+            {
+                m_isGameOver = true;
+
+                return;
+            }
+
             m_current = m_next;
             m_next = GetRandomBag();
         }

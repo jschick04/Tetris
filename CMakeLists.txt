@@ -20,12 +20,15 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 endif()
 
 # Our Project
-add_executable(${PROJECT_NAME} "src/main.cpp" "src/gpch.h" "src/Application.h" "src/Application.cpp" "src/Core/Colors.h" "src/Entities/Grid.h" "src/Entities/Grid.cpp" "src/Game.h" "src/Game.cpp"  "src/Entities/Position.h" "src/Entities/Tetrominoes/LTetromino.h"  "src/Entities/Tetromino.h" "src/Entities/Tetromino.cpp" "src/Entities/Tetrominoes/Tetrominoes.h" "src/Entities/Tetrominoes/JTetromino.h" "src/Entities/Tetrominoes/ITetromino.h" "src/Entities/Tetrominoes/OTetromino.h" "src/Entities/Tetrominoes/STetromino.h" "src/Entities/Tetrominoes/TTetromino.h")
+add_executable(${PROJECT_NAME} "src/main.cpp" "src/gpch.h" "src/Application.h" "src/Application.cpp" "src/Core/Colors.h" "src/Grid/Grid.h" "src/Grid/Grid.cpp" "src/Game.h" "src/Game.cpp"  "src/Entities/Position.h" "src/Entities/Tetrominoes/LTetromino.h"  "src/Entities/Tetromino.h" "src/Entities/Tetromino.cpp" "src/Entities/Tetrominoes/Tetrominoes.h" "src/Entities/Tetrominoes/JTetromino.h" "src/Entities/Tetrominoes/ITetromino.h" "src/Entities/Tetrominoes/OTetromino.h" "src/Entities/Tetrominoes/STetromino.h" "src/Entities/Tetrominoes/TTetromino.h")
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
+
 target_include_directories(${PROJECT_NAME} PRIVATE "src")
 target_include_directories(${PROJECT_NAME} PRIVATE "src/Entities")
-target_precompile_headers(${PROJECT_NAME} PUBLIC "src/gpch.h")
+target_include_directories(${PROJECT_NAME} PRIVATE "src/Grid")
+
+target_precompile_headers(${PROJECT_NAME} PRIVATE "src/gpch.h")
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -49,3 +52,6 @@ if (APPLE)
     target_link_libraries(${PROJECT_NAME} "-framework Cocoa")
     target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
 endif()
+
+# Copy resources to build directory
+file(COPY "res" DESTINATION "${CMAKE_BINARY_DIR}")
